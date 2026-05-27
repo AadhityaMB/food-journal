@@ -18,4 +18,8 @@ class FoodLogApplication : Application() {
     val foodEntryRepository by lazy {
         FoodEntryRepository(database.foodEntryDao())
     }
+
+    val orderedItemDao by lazy {
+        database.orderedItemDao()
+    }
 }

@@ -13,6 +13,9 @@ import com.example.food_log.data.model.FoodEntry
 import com.example.food_log.data.model.OrderedItem
 import com.example.food_log.data.model.Restaurant
 
+// version = 2 because we added new columns to FoodEntry.
+// Room requires the version number to change whenever the schema changes.
+// exportSchema = false suppresses the "export schema" warning for now.
 @Database(
     entities = [
         Restaurant::class,
@@ -20,8 +23,8 @@ import com.example.food_log.data.model.Restaurant
         OrderedItem::class,
         EntryPhoto::class
     ],
-    version = 1,
-    exportSchema = true
+    version = 2,
+    exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {
 
@@ -43,10 +46,15 @@ abstract class AppDatabase : RoomDatabase() {
                     context.applicationContext,
                     AppDatabase::class.java,
                     "food_log.db"
-                ).build()
+                )
+                    // During development, if the schema changes (new columns, etc.),
+                    // just wipe and recreate the database instead of writing a migration.
+                    // WARNING: this deletes all existing data on version change.
+                    // Remove this before releasing to real users.
+                    .fallbackToDestructiveMigration()
+                    .build()
 
                 INSTANCE = instance
-
                 instance
             }
         }

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/timelineFragment">
+
+    <!-- Timeline: the app's home screen -->
+    <fragment
+        android:id="@+id/timelineFragment"
+        android:name="com.example.food_log.ui.timeline.TimelineFragment"
+        android:label="Timeline">
+
+        <!-- FAB tapped → open blank Add Entry form (entryId = -1L) -->
+        <action
+            android:id="@+id/action_timelineFragment_to_addEntryFragment"
+            app:destination="@id/addEntryFragment"/>
+
+        <!-- Card tapped → open Edit Entry form (entryId = the real ID) -->
+        <action
+            android:id="@+id/action_timelineFragment_to_editEntry"
+            app:destination="@id/addEntryFragment"/>
+
+        <!-- Restaurant name tapped → Restaurant Profile screen -->
+        <action
+            android:id="@+id/action_timelineFragment_to_restaurantProfile"
+            app:destination="@id/restaurantProfileFragment"/>
+
+    </fragment>
+
+    <!-- Add / Edit Entry screen.
+         entryId = -1L → Add mode (new entry)
+         entryId = actual ID → Edit mode (pre-filled) -->
+    <fragment
+        android:id="@+id/addEntryFragment"
+        android:name="com.example.food_log.ui.entry.AddEntryFragment"
+        android:label="Add Entry">
+
+        <argument
+            android:name="entryId"
+            app:argType="long"
+            android:defaultValue="-1L"/>
+
+    </fragment>
+
+    <!-- Restaurant Profile screen -->
+    <fragment
+        android:id="@+id/restaurantProfileFragment"
+        android:name="com.example.food_log.ui.restaurant.RestaurantProfileFragment"
+        android:label="Restaurant Profile">
+
+        <argument
+            android:name="restaurantId"
+            app:argType="long"
+            android:defaultValue="-1L"/>
+
+    </fragment>
+
+</navigation>
