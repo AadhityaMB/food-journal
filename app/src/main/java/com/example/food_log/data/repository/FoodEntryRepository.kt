@@ -2,6 +2,7 @@ package com.example.food_log.data.repository
 
 import com.example.food_log.data.db.dao.FoodEntryDao
 import com.example.food_log.data.model.FoodEntry
+import kotlinx.coroutines.flow.Flow
 
 class FoodEntryRepository(
     private val foodEntryDao: FoodEntryDao
@@ -11,7 +12,7 @@ class FoodEntryRepository(
         return foodEntryDao.insert(entry)
     }
 
-    suspend fun getAll(): List<FoodEntry> {
+    fun getAll(): Flow<List<FoodEntry>> {
         return foodEntryDao.getAll()
     }
 

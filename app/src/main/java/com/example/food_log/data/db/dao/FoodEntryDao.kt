@@ -13,10 +13,10 @@ interface FoodEntryDao {
     suspend fun insert(foodEntry: FoodEntry): Long
 
     @Query("""
-        SELECT * FROM food_entries
-        ORDER BY date DESC
-    """)
-    suspend fun getAll(): List<FoodEntry>
+    SELECT * FROM food_entries
+    ORDER BY date DESC
+""")
+    fun getAll(): kotlinx.coroutines.flow.Flow<List<FoodEntry>>
 
     @Query("""
         SELECT * FROM food_entries
