@@ -5,7 +5,9 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.food_log.data.model.FoodEntry
-
+import androidx.room.Transaction
+import com.example.food_log.data.model.relations.EntryWithRestaurant
+import kotlinx.coroutines.flow.Flow
 @Dao
 interface FoodEntryDao {
 
@@ -33,4 +35,11 @@ interface FoodEntryDao {
 
     @Query("DELETE FROM food_entries WHERE id = :id")
     suspend fun deleteById(id: Long)
+
+    @Transaction
+    @Query("""
+    SELECT * FROM food_entries
+    ORDER BY date DESC
+""")
+    fun getAllWithRestaurant(): Flow<List<EntryWithRestaurant>>
 }

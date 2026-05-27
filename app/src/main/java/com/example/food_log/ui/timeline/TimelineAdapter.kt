@@ -7,9 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.food_log.R
 import com.example.food_log.data.model.FoodEntry
+import com.example.food_log.data.model.relations.EntryWithRestaurant
 
 class TimelineAdapter(
-    private var entries: List<FoodEntry>
+    private var entries: List<EntryWithRestaurant>
 ) : RecyclerView.Adapter<TimelineAdapter.TimelineViewHolder>() {
 
     class TimelineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -29,14 +30,14 @@ class TimelineAdapter(
 
         val entry = entries[position]
 
-        holder.tvRestaurant.text = "Restaurant ID: ${entry.restaurantId}"
-        holder.tvReview.text = entry.review ?: "No Review"
-        holder.tvAmount.text = "₹${entry.amountSpent ?: 0}"
+        holder.tvRestaurant.text = entry.restaurant.name
+        holder.tvReview.text = entry.foodEntry.review ?: "No Review"
+        holder.tvAmount.text = "₹${entry.foodEntry.amountSpent ?: 0}"
     }
 
     override fun getItemCount(): Int = entries.size
 
-    fun updateData(newEntries: List<FoodEntry>) {
+    fun updateData(newEntries: List<EntryWithRestaurant>) {
         entries = newEntries
         notifyDataSetChanged()
     }

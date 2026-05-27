@@ -7,5 +7,5 @@ class TimelineViewModel(
     private val repository: FoodEntryRepository
 ) : ViewModel() {
 
-    val entries = repository.getAll()
+    val entries = repository.getAllWithRestaurant()
 }
