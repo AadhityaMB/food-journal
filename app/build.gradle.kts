@@ -1,8 +1,10 @@
 plugins {
     alias(libs.plugins.android.application)
-
     alias(libs.plugins.ksp)
 }
+
+val appVersionCode = 3
+val appVersionName = "1.2"
 
 android {
     namespace = "com.example.food_log"
@@ -16,8 +18,8 @@ android {
         applicationId = "com.example.food_log"
         minSdk = 26
         targetSdk = 36
-        versionCode = 3
-        versionName = "1.2"
+        versionCode = appVersionCode
+        versionName = appVersionName
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -61,5 +63,5 @@ dependencies {
 }
 
 base {
-    archivesName.set("Unavurai-v1.1")
+    archivesName.set("Unavurai-v$appVersionName")
 }
