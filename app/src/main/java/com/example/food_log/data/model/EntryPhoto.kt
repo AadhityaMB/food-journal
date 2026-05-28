@@ -12,7 +12,7 @@ data class EntryPhoto(
 
     val filePath: String,
 
-    val photoType: String,
+    val photoType: com.example.food_log.data.model.enums.PhotoType,
 
     val createdAt: Long
 )

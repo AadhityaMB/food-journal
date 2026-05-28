@@ -4,6 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.example.food_log.data.model.enums.DiningMode
 import com.example.food_log.data.model.enums.Platform
+import com.example.food_log.data.model.enums.UsedDecision
 import com.example.food_log.data.model.enums.WouldOrderAgain
 
 // @Entity marks this class as a Room database table called "food_entries".
@@ -38,6 +39,9 @@ data class FoodEntry(
 
     // Which platform was used — Swiggy, Zomato, Dine-in, etc.
     val platform: Platform? = null,
+
+    // Decision on whether to revisit the restaurant
+    val usedDecision: UsedDecision? = null,
 
     val createdAt: Long,
     val updatedAt: Long
