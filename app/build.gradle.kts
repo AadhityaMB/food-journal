@@ -59,3 +59,7 @@ dependencies {
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(libs.androidx.junit)
 }
+
+base {
+    archivesName.set("Unavurai-v1.1")
+}
