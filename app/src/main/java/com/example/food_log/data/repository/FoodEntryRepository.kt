@@ -2,6 +2,9 @@ package com.example.food_log.data.repository
 
 import com.example.food_log.data.db.dao.FoodEntryDao
 import com.example.food_log.data.model.FoodEntry
+import com.example.food_log.data.model.enums.DiningMode
+import com.example.food_log.data.model.enums.Platform
+import com.example.food_log.data.model.enums.WouldOrderAgain
 import com.example.food_log.data.model.relations.EntryWithRestaurant
 import kotlinx.coroutines.flow.Flow
 
@@ -25,6 +28,16 @@ class FoodEntryRepository(
     // Used by Timeline to reactively display all entries with restaurant names
     fun getAllWithRestaurant(): Flow<List<EntryWithRestaurant>> {
         return foodEntryDao.getAllWithRestaurant()
+    }
+
+    fun getFilteredEntries(
+        diningMode: DiningMode?,
+        platform: Platform?,
+        wouldOrderAgain: WouldOrderAgain?,
+        startDate: Long?,
+        endDate: Long?
+    ): Flow<List<EntryWithRestaurant>> {
+        return foodEntryDao.getFilteredEntries(diningMode, platform, wouldOrderAgain, startDate, endDate)
     }
 
     // Used by Restaurant Profile to show entries for one specific restaurant

@@ -6,6 +6,9 @@ import androidx.room.Query
 import androidx.room.Transaction
 import androidx.room.Update
 import com.example.food_log.data.model.FoodEntry
+import com.example.food_log.data.model.enums.DiningMode
+import com.example.food_log.data.model.enums.Platform
+import com.example.food_log.data.model.enums.WouldOrderAgain
 import com.example.food_log.data.model.relations.EntryWithRestaurant
 import kotlinx.coroutines.flow.Flow
 
@@ -34,6 +37,24 @@ interface FoodEntryDao {
     ORDER BY date DESC
 """)
     fun getAllWithRestaurant(): Flow<List<EntryWithRestaurant>>
+
+    @Transaction
+    @Query("""
+    SELECT * FROM food_entries
+    WHERE (:diningMode IS NULL OR diningMode = :diningMode)
+      AND (:platform IS NULL OR platform = :platform)
+      AND (:wouldOrderAgain IS NULL OR wouldOrderAgain = :wouldOrderAgain)
+      AND (:startDate IS NULL OR date >= :startDate)
+      AND (:endDate IS NULL OR date <= :endDate)
+    ORDER BY date DESC
+    """)
+    fun getFilteredEntries(
+        diningMode: DiningMode?,
+        platform: Platform?,
+        wouldOrderAgain: WouldOrderAgain?,
+        startDate: Long?,
+        endDate: Long?
+    ): Flow<List<EntryWithRestaurant>>
 
     // All entries for a specific restaurant, newest first.
     // Used in the Restaurant Profile screen.

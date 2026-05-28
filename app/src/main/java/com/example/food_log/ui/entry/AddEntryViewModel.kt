@@ -67,6 +67,10 @@ class AddEntryViewModel(
         _selectedPhotos.value = _selectedPhotos.value + SelectedPhoto(uri, type)
     }
 
+    fun removePhoto(uri: String) {
+        _selectedPhotos.value = _selectedPhotos.value.filter { it.uri != uri }
+    }
+
     init {
         // If we're in edit mode, load the existing entry from the database
         // so the Fragment can pre-fill all the form fields.

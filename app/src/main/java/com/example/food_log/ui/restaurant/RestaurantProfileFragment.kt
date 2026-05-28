@@ -8,6 +8,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.navigation.fragment.findNavController
 import com.example.food_log.FoodLogApplication
 import com.example.food_log.R
 import com.example.food_log.ui.timeline.TimelineAdapter
@@ -44,7 +45,13 @@ class RestaurantProfileFragment : Fragment(R.layout.fragment_restaurant_profile)
 
         // Set up the RecyclerView — reuse TimelineAdapter for the visit history list
         val adapter = TimelineAdapter(
-            onEditClick = { /* no click needed here */ }
+            onEditClick = { id ->
+                val bundle = Bundle().apply { putLong("entryId", id) }
+                findNavController().navigate(
+                    R.id.action_restaurantProfileFragment_to_addEntryFragment,
+                    bundle
+                )
+            }
         )
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter

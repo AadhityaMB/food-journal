@@ -178,6 +178,23 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
                         setBackgroundColor(android.graphics.Color.parseColor("#88000000"))
                         setPadding(8, 4, 8, 4)
                     }
+
+                    val btnRemovePhoto = ImageButton(requireContext()).apply {
+                        layoutParams = FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.WRAP_CONTENT,
+                            FrameLayout.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            gravity = android.view.Gravity.TOP or android.view.Gravity.END
+                            setMargins(0, 8, 8, 0)
+                        }
+                        setImageResource(android.R.drawable.ic_menu_close_clear_cancel)
+                        setBackgroundColor(android.graphics.Color.parseColor("#88000000"))
+                        setColorFilter(android.graphics.Color.WHITE)
+                        setPadding(8, 8, 8, 8)
+                        setOnClickListener {
+                            viewModel.removePhoto(photo.uri)
+                        }
+                    }
                     
                     Glide.with(this@AddEntryFragment)
                         .load(Uri.parse(photo.uri))
@@ -185,6 +202,7 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
                         
                     frameLayout.addView(imageView)
                     frameLayout.addView(textView)
+                    frameLayout.addView(btnRemovePhoto)
                     llPhotosContainer.addView(frameLayout)
                 }
             }
