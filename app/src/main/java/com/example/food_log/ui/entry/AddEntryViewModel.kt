@@ -58,12 +58,14 @@ class AddEntryViewModel(
     private val _navigateBack = MutableSharedFlow<Unit>(extraBufferCapacity = 1)
     val navigateBack: SharedFlow<Unit> = _navigateBack.asSharedFlow()
 
-    // Holds the list of URIs the user selected from the Photo Picker
-    private val _selectedPhotoUris = MutableStateFlow<List<String>>(emptyList())
-    val selectedPhotoUris: StateFlow<List<String>> = _selectedPhotoUris.asStateFlow()
+    data class SelectedPhoto(val uri: String, val type: PhotoType)
 
-    fun addPhotoUri(uri: String) {
-        _selectedPhotoUris.value = _selectedPhotoUris.value + uri
+    // Holds the list of photos and their types the user selected
+    private val _selectedPhotos = MutableStateFlow<List<SelectedPhoto>>(emptyList())
+    val selectedPhotos: StateFlow<List<SelectedPhoto>> = _selectedPhotos.asStateFlow()
+
+    fun addPhoto(uri: String, type: PhotoType) {
+        _selectedPhotos.value = _selectedPhotos.value + SelectedPhoto(uri, type)
     }
 
     init {
@@ -80,7 +82,7 @@ class AddEntryViewModel(
                     // on the Flow queries, we will just query them directly for edit mode.
                     val photos = photoDao.getByEntry(entryId)
                     _existingEntry.value = entryWithRestaurant
-                    _selectedPhotoUris.value = photos.map { it.filePath }
+                    _selectedPhotos.value = photos.map { SelectedPhoto(it.filePath, it.photoType) }
                 }
             }
         }
@@ -157,12 +159,12 @@ class AddEntryViewModel(
             }
 
             // Insert all photos
-            _selectedPhotoUris.value.forEach { uri ->
+            _selectedPhotos.value.forEach { photo ->
                 photoDao.insert(
                     EntryPhoto(
                         entryId = finalEntryId,
-                        filePath = uri,
-                        photoType = PhotoType.FOOD,
+                        filePath = photo.uri,
+                        photoType = photo.type,
                         createdAt = System.currentTimeMillis()
                     )
                 )

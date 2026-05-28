@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.example.food_log.FoodLogApplication
 import com.example.food_log.R
 import com.example.food_log.data.model.enums.DiningMode
@@ -38,8 +39,18 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
             val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
             requireContext().contentResolver.takePersistableUriPermission(uri, flag)
             
-            // Send the URI string to the ViewModel
-            viewModel.addPhotoUri(uri.toString())
+            val photoTypes = com.example.food_log.data.model.enums.PhotoType.entries.toTypedArray()
+            val typeNames = photoTypes.map { it.name }.toTypedArray()
+
+            MaterialAlertDialogBuilder(requireContext())
+                .setTitle("Select Photo Type")
+                .setItems(typeNames) { _, which ->
+                    viewModel.addPhoto(uri.toString(), photoTypes[which])
+                }
+                .setOnCancelListener {
+                    viewModel.addPhoto(uri.toString(), com.example.food_log.data.model.enums.PhotoType.FOOD)
+                }
+                .show()
         }
     }
 
@@ -134,25 +145,49 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
 
         // --- Photos Observation ---
         viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.selectedPhotoUris.collect { uris ->
+            viewModel.selectedPhotos.collect { photos ->
                 llPhotosContainer.removeAllViews()
                 
-                uris.forEach { uriString ->
-                    val imageView = ImageView(requireContext()).apply {
+                photos.forEach { photo ->
+                    val frameLayout = FrameLayout(requireContext()).apply {
                         layoutParams = LinearLayout.LayoutParams(
                             300, 
                             LinearLayout.LayoutParams.MATCH_PARENT
                         ).apply {
                             setMargins(0, 0, 16, 0)
                         }
+                    }
+
+                    val imageView = ImageView(requireContext()).apply {
+                        layoutParams = FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.MATCH_PARENT, 
+                            FrameLayout.LayoutParams.MATCH_PARENT
+                        )
                         scaleType = ImageView.ScaleType.CENTER_CROP
                     }
                     
+                    val textView = TextView(requireContext()).apply {
+                        layoutParams = FrameLayout.LayoutParams(
+                            FrameLayout.LayoutParams.WRAP_CONTENT,
+                            FrameLayout.LayoutParams.WRAP_CONTENT
+                        ).apply {
+                            gravity = android.view.Gravity.BOTTOM or android.view.Gravity.END
+                            setMargins(0, 0, 8, 8)
+                        }
+                        text = photo.type.name
+                        textSize = 10f
+                        setTextColor(android.graphics.Color.WHITE)
+                        setBackgroundColor(android.graphics.Color.parseColor("#88000000"))
+                        setPadding(8, 4, 8, 4)
+                    }
+                    
                     Glide.with(this@AddEntryFragment)
-                        .load(Uri.parse(uriString))
+                        .load(Uri.parse(photo.uri))
                         .into(imageView)
                         
-                    llPhotosContainer.addView(imageView)
+                    frameLayout.addView(imageView)
+                    frameLayout.addView(textView)
+                    llPhotosContainer.addView(frameLayout)
                 }
             }
         }
