@@ -4,7 +4,7 @@
     parent CoordinatorLayout/Fragment system works better with it.
     The form scrolls vertically so all fields are accessible on small screens.
 -->
-<ScrollView
+<androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -243,4 +243,4 @@
 
     </LinearLayout>
 
-</ScrollView>
+</androidx.core.widget.NestedScrollView>
