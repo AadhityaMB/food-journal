@@ -1,32 +1,27 @@
-# Unavurai (Food Log) 🍔📖
+# Unavurai
 
-**Unavurai** is a beautifully designed, personal food journaling Android application built for foodies. It helps you keep track of every memorable meal, the dishes you've tried, how much you spent, and most importantly—whether you would order it again!
+Unavurai is a personal Android app for tracking food and restaurant visits. I built this to solve the problem of forgetting what I ordered at a restaurant and whether it was actually good or not.
 
-## Features ✨
-* **Dynamic Dish Logging:** Add as many dishes as you want to a single restaurant visit, along with their individual prices.
-* **Photo Attachments:** Snap or select photos of your food, the menu, or the bill to remember exactly what your meal looked like.
-* **Smart Organization:** Categorize your meals by Dining Mode (Dine-in, Takeaway, Delivery) and Platform (Swiggy, Zomato, Direct, etc.).
-* **Review & Rating System:** Give your experience a star rating and leave detailed notes.
-* **Edge-to-Edge Design:** Fully optimized for Android 15 with a stunning, immersive Material 3 user interface.
-* **Offline First:** All data is securely and instantly saved locally on your device using a robust Room Database.
+The app lets you log the restaurant name, specific dishes you ate, prices, and photos. It also asks if you'd order the food again, making it easier to decide what to eat next time you visit.
 
-## Tech Stack 🛠️
-* **Language:** Kotlin
-* **UI Toolkit:** Android Views (XML) & Material Design 3
-* **Architecture:** MVVM (Model-View-ViewModel)
-* **Local Database:** Room (SQLite)
-* **Image Loading:** Glide
-* **Navigation:** Jetpack Navigation Component
-* **Coroutines & Flow:** For asynchronous database operations and reactive UI updates
+## Features
+- **Dish tracking:** Log multiple dishes and their individual prices per restaurant visit.
+- **Photos:** Attach photos of the food, menu, or receipt directly from your gallery.
+- **Categorization:** Filter or tag entries by how you got the food (Dine-in, Takeaway, Delivery) and what platform you used (Swiggy, Zomato, Direct, etc.).
+- **Ratings & Notes:** Rate the meal out of 5 stars and leave custom notes.
+- **Local Storage:** Everything is saved locally on your device using Room Database. No internet connection required.
 
-## Screenshots 📱
-*(Add screenshots of the timeline and add-entry screens here!)*
+## Tech Stack
+- **Kotlin**
+- **Architecture:** MVVM
+- **UI:** Android XML with Material 3 (Edge-to-Edge support)
+- **Database:** Room
+- **Images:** Glide
+- **Navigation:** Jetpack Navigation Component
 
-## Getting Started 🚀
-1. Clone this repository: `git clone https://github.com/AadhityaMB/food-journal.git`
-2. Open the project in **Android Studio**.
-3. Sync Gradle and build the project.
-4. Run it on an emulator or a physical device!
-
----
-*Built with ❤️ for those who love to eat and remember.*
+## Setup
+To run this project locally:
+1. Clone the repository
+2. Open it in Android Studio
+3. Let Gradle sync and build the project
+4. Run on an emulator or physical Android device
