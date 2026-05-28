@@ -45,13 +45,14 @@ class RestaurantProfileFragment : Fragment(R.layout.fragment_restaurant_profile)
 
         // Set up the RecyclerView — reuse TimelineAdapter for the visit history list
         val adapter = TimelineAdapter(
-            onEditClick = { id ->
-                val bundle = Bundle().apply { putLong("entryId", id) }
+            onEditClick = { entry ->
+                val bundle = Bundle().apply { putLong("entryId", entry.foodEntry.id) }
                 findNavController().navigate(
                     R.id.action_restaurantProfileFragment_to_addEntryFragment,
                     bundle
                 )
-            }
+            },
+            onRestaurantClick = { /* Do nothing, already in profile */ }
         )
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
