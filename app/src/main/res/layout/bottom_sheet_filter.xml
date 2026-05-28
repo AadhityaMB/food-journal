@@ -45,25 +45,31 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Month"/>
-    <Spinner
-        android:id="@+id/spinnerFilterMonth"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="12dp"/>
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Week of Month"/>
-    <Spinner
-        android:id="@+id/spinnerFilterWeek"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"/>
+        <Button
+            android:id="@+id/btnStartDate"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Start Date"
+            android:layout_marginEnd="8dp"/>
+
+        <Button
+            android:id="@+id/btnEndDate"
+            style="@style/Widget.Material3.Button.OutlinedButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="End Date"
+            android:layout_marginStart="8dp"/>
+
+    </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"

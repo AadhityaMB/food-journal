@@ -13,7 +13,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
-import java.util.Calendar
 
 class TimelineViewModel(
     private val repository: FoodEntryRepository
@@ -24,25 +23,24 @@ class TimelineViewModel(
     val filterDiningMode = MutableStateFlow<DiningMode?>(null)
     val filterPlatform = MutableStateFlow<Platform?>(null)
     val filterWouldOrderAgain = MutableStateFlow<WouldOrderAgain?>(null)
-    val filterMonth = MutableStateFlow<Int>(-1) // 0-11 for Jan-Dec, -1 for Any
-    val filterWeek = MutableStateFlow<Int>(-1)  // 1-5 for Week 1-5, -1 for Any
+    val filterStartDate = MutableStateFlow<Long?>(null)
+    val filterEndDate = MutableStateFlow<Long?>(null)
 
     private data class FilterState(
         val mode: DiningMode?,
         val platform: Platform?,
         val again: WouldOrderAgain?,
-        val month: Int,
-        val week: Int
+        val startDate: Long?,
+        val endDate: Long?
     )
 
     @kotlinx.coroutines.ExperimentalCoroutinesApi
     private val filteredEntriesFromDb = combine(
-        filterDiningMode, filterPlatform, filterWouldOrderAgain, filterMonth, filterWeek
-    ) { mode, platform, again, month, week ->
-        FilterState(mode, platform, again, month, week)
+        filterDiningMode, filterPlatform, filterWouldOrderAgain, filterStartDate, filterEndDate
+    ) { mode, platform, again, start, end ->
+        FilterState(mode, platform, again, start, end)
     }.flatMapLatest { state ->
-        val (start, end) = getStartAndEndMillis(state.month, state.week)
-        repository.getFilteredEntries(state.mode, state.platform, state.again, start, end)
+        repository.getFilteredEntries(state.mode, state.platform, state.again, state.startDate, state.endDate)
     }
 
     val entries: StateFlow<List<EntryWithRestaurant>> = combine(
@@ -67,52 +65,26 @@ class TimelineViewModel(
         initialValue = emptyList()
     )
 
-    private fun getStartAndEndMillis(month: Int, week: Int): Pair<Long?, Long?> {
-        if (month == -1) return Pair(null, null)
-
-        val cal = Calendar.getInstance()
-        cal.set(Calendar.MONTH, month)
-        cal.set(Calendar.DAY_OF_MONTH, 1)
-        cal.set(Calendar.HOUR_OF_DAY, 0)
-        cal.set(Calendar.MINUTE, 0)
-        cal.set(Calendar.SECOND, 0)
-        cal.set(Calendar.MILLISECOND, 0)
-
-        if (week == -1) {
-            val startMillis = cal.timeInMillis
-            cal.add(Calendar.MONTH, 1)
-            val endMillis = cal.timeInMillis - 1
-            return Pair(startMillis, endMillis)
-        } else {
-            cal.set(Calendar.WEEK_OF_MONTH, week)
-            cal.set(Calendar.DAY_OF_WEEK, cal.firstDayOfWeek)
-            val startMillis = cal.timeInMillis
-            cal.add(Calendar.WEEK_OF_YEAR, 1)
-            val endMillis = cal.timeInMillis - 1
-            return Pair(startMillis, endMillis)
-        }
-    }
-
     fun applyFilters(
         mode: DiningMode?,
         platform: Platform?,
         again: WouldOrderAgain?,
-        month: Int,
-        week: Int
+        startDate: Long?,
+        endDate: Long?
     ) {
         filterDiningMode.value = mode
         filterPlatform.value = platform
         filterWouldOrderAgain.value = again
-        filterMonth.value = month
-        filterWeek.value = week
+        filterStartDate.value = startDate
+        filterEndDate.value = endDate
     }
 
     fun clearFilters() {
         filterDiningMode.value = null
         filterPlatform.value = null
         filterWouldOrderAgain.value = null
-        filterMonth.value = -1
-        filterWeek.value = -1
+        filterStartDate.value = null
+        filterEndDate.value = null
     }
 
     fun updateSearchQuery(query: String) {

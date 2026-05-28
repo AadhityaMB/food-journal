@@ -21,8 +21,12 @@ import com.example.food_log.data.model.enums.DiningMode
 import com.example.food_log.data.model.enums.Platform
 import com.example.food_log.data.model.enums.WouldOrderAgain
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import kotlinx.coroutines.launch
+import java.text.SimpleDateFormat
+import java.util.Date
+import java.util.Locale
 
 class TimelineFragment : Fragment(R.layout.fragment_timeline) {
 
@@ -102,26 +106,24 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline) {
         val spinnerMode = view.findViewById<Spinner>(R.id.spinnerFilterDiningMode)
         val spinnerPlatform = view.findViewById<Spinner>(R.id.spinnerFilterPlatform)
         val spinnerAgain = view.findViewById<Spinner>(R.id.spinnerFilterWouldOrderAgain)
-        val spinnerMonth = view.findViewById<Spinner>(R.id.spinnerFilterMonth)
-        val spinnerWeek = view.findViewById<Spinner>(R.id.spinnerFilterWeek)
+        val btnStartDate = view.findViewById<Button>(R.id.btnStartDate)
+        val btnEndDate = view.findViewById<Button>(R.id.btnEndDate)
         val btnApply = view.findViewById<Button>(R.id.btnApplyFilters)
         val btnClear = view.findViewById<Button>(R.id.btnClearFilters)
 
+        // Setup Dining Mode spinner
         val modeValues = listOf("Any") + DiningMode.entries.map { it.name.replace("_", " ") }
         spinnerMode.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, modeValues)
 
+        // Setup Platform spinner
         val platformValues = listOf("Any") + Platform.entries.map { it.name.replace("_", " ") }
         spinnerPlatform.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, platformValues)
 
+        // Setup Would Order Again spinner
         val againValues = listOf("Any") + WouldOrderAgain.entries.map { it.name }
         spinnerAgain.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, againValues)
 
-        val months = listOf("Any", "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December")
-        spinnerMonth.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, months)
-
-        val weeks = listOf("Any", "Week 1", "Week 2", "Week 3", "Week 4", "Week 5")
-        spinnerWeek.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, weeks)
-
+        // Pre-fill existing filters
         viewModel.filterDiningMode.value?.let { mode ->
             spinnerMode.setSelection(DiningMode.entries.indexOf(mode) + 1)
         }
@@ -131,8 +133,46 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline) {
         viewModel.filterWouldOrderAgain.value?.let { again ->
             spinnerAgain.setSelection(WouldOrderAgain.entries.indexOf(again) + 1)
         }
-        spinnerMonth.setSelection(viewModel.filterMonth.value + 1)
-        spinnerWeek.setSelection(viewModel.filterWeek.value + 1)
+
+        var selectedStartDate: Long? = viewModel.filterStartDate.value
+        var selectedEndDate: Long? = viewModel.filterEndDate.value
+
+        val dateFormat = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+
+        fun updateDateButtons() {
+            btnStartDate.text = selectedStartDate?.let { "Start: ${dateFormat.format(Date(it))}" } ?: "Start Date"
+            btnEndDate.text = selectedEndDate?.let { "End: ${dateFormat.format(Date(it))}" } ?: "End Date"
+        }
+        updateDateButtons()
+
+        btnStartDate.setOnClickListener {
+            val picker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select Start Date")
+                .setSelection(selectedStartDate ?: MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
+            
+            picker.addOnPositiveButtonClickListener { selection ->
+                selectedStartDate = selection
+                updateDateButtons()
+            }
+            picker.show(parentFragmentManager, "START_DATE_PICKER")
+        }
+
+        btnEndDate.setOnClickListener {
+            val picker = MaterialDatePicker.Builder.datePicker()
+                .setTitleText("Select End Date")
+                .setSelection(selectedEndDate ?: MaterialDatePicker.todayInUtcMilliseconds())
+                .build()
+            
+            picker.addOnPositiveButtonClickListener { selection ->
+                // Ensure end date covers the entire day (up to 23:59:59.999)
+                // MaterialDatePicker returns the timestamp for the start of the UTC day
+                val endOfDayMillis = selection + (24 * 60 * 60 * 1000 - 1)
+                selectedEndDate = endOfDayMillis
+                updateDateButtons()
+            }
+            picker.show(parentFragmentManager, "END_DATE_PICKER")
+        }
 
         btnClear.setOnClickListener {
             viewModel.clearFilters()
@@ -143,10 +183,8 @@ class TimelineFragment : Fragment(R.layout.fragment_timeline) {
             val selectedMode = if (spinnerMode.selectedItemPosition > 0) DiningMode.entries[spinnerMode.selectedItemPosition - 1] else null
             val selectedPlatform = if (spinnerPlatform.selectedItemPosition > 0) Platform.entries[spinnerPlatform.selectedItemPosition - 1] else null
             val selectedAgain = if (spinnerAgain.selectedItemPosition > 0) WouldOrderAgain.entries[spinnerAgain.selectedItemPosition - 1] else null
-            val selectedMonth = spinnerMonth.selectedItemPosition - 1
-            val selectedWeek = spinnerWeek.selectedItemPosition - 1
 
-            viewModel.applyFilters(selectedMode, selectedPlatform, selectedAgain, selectedMonth, selectedWeek)
+            viewModel.applyFilters(selectedMode, selectedPlatform, selectedAgain, selectedStartDate, selectedEndDate)
             bottomSheet.dismiss()
         }
 
