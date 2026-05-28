@@ -15,7 +15,6 @@ import com.example.food_log.data.db.dao.PhotoDao
 import com.example.food_log.data.model.EntryPhoto
 import com.example.food_log.data.model.enums.PhotoType
 import com.example.food_log.data.model.enums.Platform
-import com.example.food_log.data.model.enums.UsedDecision
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -99,7 +98,6 @@ class AddEntryViewModel(
         diningMode: DiningMode?,
         wouldOrderAgain: WouldOrderAgain?,
         platform: Platform?,
-        usedDecision: UsedDecision?,
         date: Long,
         dishes: List<Pair<String, Double?>> // Passed from Fragment as name/price pairs
     ) {
@@ -121,7 +119,6 @@ class AddEntryViewModel(
                         diningMode = diningMode,
                         wouldOrderAgain = wouldOrderAgain,
                         platform = platform,
-                        usedDecision = usedDecision,
                         createdAt = original?.createdAt ?: System.currentTimeMillis(),
                         updatedAt = System.currentTimeMillis()
                     )
@@ -140,7 +137,6 @@ class AddEntryViewModel(
                         diningMode = diningMode,
                         wouldOrderAgain = wouldOrderAgain,
                         platform = platform,
-                        usedDecision = usedDecision,
                         createdAt = System.currentTimeMillis(),
                         updatedAt = System.currentTimeMillis()
                     )

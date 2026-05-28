@@ -237,44 +237,6 @@
 
         </RadioGroup>
 
-        <!-- Revisit Restaurant (UserDecision) -->
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Revisit Restaurant?"
-            android:textSize="14sp"
-            android:textColor="?attr/colorOnSurfaceVariant"
-            android:layout_marginBottom="4dp"/>
-
-        <RadioGroup
-            android:id="@+id/radioGroupRevisit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="24dp">
-
-            <RadioButton
-                android:id="@+id/radioRevisitYes"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Yes"
-                android:layout_marginEnd="12dp"/>
-
-            <RadioButton
-                android:id="@+id/radioRevisitNeutral"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Neutral"
-                android:layout_marginEnd="12dp"/>
-
-            <RadioButton
-                android:id="@+id/radioRevisitNo"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Avoid"/>
-
-        </RadioGroup>
-
         <!-- Delete button — only shown in Edit mode, hidden for new entries -->
         <Button
             android:id="@+id/btnDelete"

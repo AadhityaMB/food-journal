@@ -23,7 +23,7 @@ import com.example.food_log.data.model.Restaurant
         OrderedItem::class,
         EntryPhoto::class
     ],
-    version = 3,
+    version = 4,
     exportSchema = false
 )
 abstract class AppDatabase : RoomDatabase() {

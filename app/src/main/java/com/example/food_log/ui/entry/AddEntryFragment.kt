@@ -17,7 +17,6 @@ import com.example.food_log.FoodLogApplication
 import com.example.food_log.R
 import com.example.food_log.data.model.enums.DiningMode
 import com.example.food_log.data.model.enums.Platform
-import com.example.food_log.data.model.enums.UsedDecision
 import com.example.food_log.data.model.enums.WouldOrderAgain
 import kotlinx.coroutines.launch
 import java.text.SimpleDateFormat
@@ -70,7 +69,6 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
         val spinnerDiningMode = view.findViewById<Spinner>(R.id.spinnerDiningMode)
         val spinnerPlatform = view.findViewById<Spinner>(R.id.spinnerPlatform)
         val radioGroupOrderAgain = view.findViewById<RadioGroup>(R.id.radioGroupOrderAgain)
-        val radioGroupRevisit = view.findViewById<RadioGroup>(R.id.radioGroupRevisit)
         val btnDelete = view.findViewById<Button>(R.id.btnDelete)
         val btnSave = view.findViewById<Button>(R.id.btnSave)
 
@@ -264,13 +262,6 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
                         if (index >= 0) spinnerPlatform.setSelection(index)
                     }
 
-                    when (entry.foodEntry.usedDecision) {
-                        UsedDecision.WANT_TO_REVISIT -> radioGroupRevisit.check(R.id.radioRevisitYes)
-                        UsedDecision.NEUTRAL -> radioGroupRevisit.check(R.id.radioRevisitNeutral)
-                        UsedDecision.AVOID -> radioGroupRevisit.check(R.id.radioRevisitNo)
-                        null -> radioGroupRevisit.clearCheck()
-                    }
-
                     // Populate dishes
                     llDishesContainer.removeAllViews()
                     entry.orderedItems.forEach { item ->
@@ -316,13 +307,6 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
                 Platform.entries[spinnerPlatform.selectedItemPosition]
             } else null
 
-            val usedDecision = when (radioGroupRevisit.checkedRadioButtonId) {
-                R.id.radioRevisitYes -> UsedDecision.WANT_TO_REVISIT
-                R.id.radioRevisitNeutral -> UsedDecision.NEUTRAL
-                R.id.radioRevisitNo -> UsedDecision.AVOID
-                else -> null
-            }
-
             // Gather all dishes from the dynamic container
             val dishes = mutableListOf<Pair<String, Double?>>()
             for (i in 0 until llDishesContainer.childCount) {
@@ -344,7 +328,6 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
                 diningMode = diningMode,
                 wouldOrderAgain = wouldOrderAgain,
                 platform = platform,
-                usedDecision = usedDecision,
                 date = selectedDate.timeInMillis,
                 dishes = dishes
             )
