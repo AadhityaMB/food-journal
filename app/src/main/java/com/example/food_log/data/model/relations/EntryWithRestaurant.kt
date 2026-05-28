@@ -26,5 +26,12 @@ data class EntryWithRestaurant(
         parentColumn = "id",         // id from food_entries
         entityColumn = "entryId"     // entryId from ordered_items
     )
-    val orderedItems: List<com.example.food_log.data.model.OrderedItem> = emptyList()
+    val orderedItems: List<com.example.food_log.data.model.OrderedItem> = emptyList(),
+
+    // Loads all attached photos for this specific food entry
+    @Relation(
+        parentColumn = "id",
+        entityColumn = "entryId"
+    )
+    val photos: List<com.example.food_log.data.model.EntryPhoto> = emptyList()
 )

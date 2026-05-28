@@ -2,4 +2,14 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    
+    <!-- Warm "Foodie" Color Palette -->
+    <color name="foodie_orange">#FF5722</color>          <!-- Deep Orange -->
+    <color name="foodie_orange_dark">#E64A19</color>     <!-- Darker Orange -->
+    <color name="foodie_orange_light">#FFCCBC</color>    <!-- Light Orange -->
+    <color name="foodie_yellow">#FFC107</color>          <!-- Amber/Yellow for accents -->
+    
+    <!-- Neutral colors for backgrounds/surfaces -->
+    <color name="foodie_surface_light">#FFF3E0</color>   <!-- Very light orange-tinted white -->
+    <color name="foodie_surface_dark">#1F1A18</color>    <!-- Very dark warm grey -->
 </resources>

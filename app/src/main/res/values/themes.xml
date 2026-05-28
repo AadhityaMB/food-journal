@@ -1,9 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Foodlog" parent="Theme.Material3.DayNight.NoActionBar">
+    <style name="Base.Theme.Foodlog" parent="Theme.Material3.DayNight">
         <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-        <item name="android:windowBackground">?android:attr/colorBackground</item>
+        <item name="colorPrimary">@color/foodie_orange</item>
+        <item name="colorPrimaryVariant">@color/foodie_orange_dark</item>
+        <item name="colorSecondary">@color/foodie_yellow</item>
+        <item name="android:windowBackground">@color/foodie_surface_light</item>
     </style>
 
     <style name="Theme.Foodlog" parent="Base.Theme.Foodlog" />

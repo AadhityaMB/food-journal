@@ -3,11 +3,13 @@ package com.example.food_log.ui.timeline
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.food_log.R
 import com.example.food_log.data.model.relations.EntryWithRestaurant
 import java.text.SimpleDateFormat
@@ -39,6 +41,7 @@ class TimelineAdapter(
     }
 
     class TimelineViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val ivEntryPhoto: ImageView = itemView.findViewById(R.id.ivEntryPhoto)
         val tvRestaurant: TextView = itemView.findViewById(R.id.tvRestaurant)
         val tvDate: TextView = itemView.findViewById(R.id.tvDate)
         val ratingBar: RatingBar = itemView.findViewById(R.id.ratingBar)
@@ -72,6 +75,16 @@ class TimelineAdapter(
             ?: "No review written"
         holder.tvAmount.text = entry.foodEntry.amountSpent
             ?.let { "₹%.0f".format(it) } ?: "–"
+
+        // Load the first attached photo, if any
+        if (entry.photos.isNotEmpty()) {
+            holder.ivEntryPhoto.visibility = View.VISIBLE
+            Glide.with(holder.itemView.context)
+                .load(android.net.Uri.parse(entry.photos.first().filePath))
+                .into(holder.ivEntryPhoto)
+        } else {
+            holder.ivEntryPhoto.visibility = View.GONE
+        }
 
         // Tapping the whole card → opens Edit Entry screen
         holder.itemView.setOnClickListener {

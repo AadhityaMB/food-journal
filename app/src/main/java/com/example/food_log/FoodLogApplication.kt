@@ -22,4 +22,8 @@ class FoodLogApplication : Application() {
     val orderedItemDao by lazy {
         database.orderedItemDao()
     }
+
+    val photoDao by lazy {
+        database.photoDao()
+    }
 }

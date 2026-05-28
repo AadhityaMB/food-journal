@@ -18,16 +18,7 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <!-- Title: changes to "Edit Entry" when opened from a card tap -->
-        <TextView
-            android:id="@+id/tvFormTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add Food Entry"
-            android:textSize="22sp"
-            android:textStyle="bold"
-            android:textColor="?attr/colorOnBackground"
-            android:layout_marginBottom="20dp"/>
+        <!-- Title was removed because it is now displayed in the Top App Bar -->
 
         <!-- Restaurant Name with Autocomplete -->
         <!-- AutoCompleteTextView shows a dropdown of existing restaurants as you type -->
@@ -92,6 +83,37 @@
             android:layout_height="wrap_content"
             android:text="Add Dish"
             app:icon="@android:drawable/ic_input_add"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Photos Section -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Photos"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnBackground"
+            android:layout_marginBottom="8dp"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp">
+
+            <LinearLayout
+                android:id="@+id/llPhotosContainer"
+                android:layout_width="wrap_content"
+                android:layout_height="100dp"
+                android:orientation="horizontal"/>
+        </HorizontalScrollView>
+
+        <Button
+            android:id="@+id/btnAddPhoto"
+            style="@style/Widget.Material3.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Photo"
+            app:icon="@android:drawable/ic_menu_camera"
             android:layout_marginBottom="16dp"/>
 
         <!-- Review / Notes -->

@@ -6,12 +6,15 @@ import com.example.food_log.data.db.dao.OrderedItemDao
 import com.example.food_log.data.repository.FoodEntryRepository
 import com.example.food_log.data.repository.RestaurantRepository
 
+import com.example.food_log.data.db.dao.PhotoDao
+
 // entryId = -1L for a new entry, actual ID when editing.
 class AddEntryViewModelFactory(
     private val entryId: Long,
     private val restaurantRepository: RestaurantRepository,
     private val foodEntryRepository: FoodEntryRepository,
-    private val orderedItemDao: OrderedItemDao
+    private val orderedItemDao: OrderedItemDao,
+    private val photoDao: PhotoDao
 ) : ViewModelProvider.Factory {
 
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
@@ -19,7 +22,8 @@ class AddEntryViewModelFactory(
             entryId,
             restaurantRepository,
             foodEntryRepository,
-            orderedItemDao
+            orderedItemDao,
+            photoDao
         ) as T
     }
 }

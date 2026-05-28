@@ -1,13 +1,17 @@
 package com.example.food_log.ui.entry
 
 import android.app.DatePickerDialog
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
 import com.example.food_log.FoodLogApplication
 import com.example.food_log.R
 import com.example.food_log.data.model.enums.DiningMode
@@ -25,6 +29,18 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
     private val selectedDate = Calendar.getInstance()
     private val dateFormat = SimpleDateFormat("dd MMM yyyy", Locale.getDefault())
 
+    // Register the Photo Picker contract
+    private val pickMedia = registerForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) {
+            // Tell Android we want to keep access to this URI even after the app restarts
+            val flag = Intent.FLAG_GRANT_READ_URI_PERMISSION
+            requireContext().contentResolver.takePersistableUriPermission(uri, flag)
+            
+            // Send the URI string to the ViewModel
+            viewModel.addPhotoUri(uri.toString())
+        }
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -33,7 +49,6 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
         val entryId = arguments?.getLong("entryId") ?: -1L
 
         // Get view references
-        val tvTitle = view.findViewById<TextView>(R.id.tvFormTitle)
         val etRestaurant = view.findViewById<AutoCompleteTextView>(R.id.etRestaurant)
         val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
         val etReview = view.findViewById<EditText>(R.id.etReview)
@@ -44,15 +59,17 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
         val btnDelete = view.findViewById<Button>(R.id.btnDelete)
         val btnSave = view.findViewById<Button>(R.id.btnSave)
 
-        // New Views for Dishes
+        // New Views for Dishes and Photos
         val llDishesContainer = view.findViewById<LinearLayout>(R.id.llDishesContainer)
         val btnAddDish = view.findViewById<Button>(R.id.btnAddDish)
+        val llPhotosContainer = view.findViewById<LinearLayout>(R.id.llPhotosContainer)
+        val btnAddPhoto = view.findViewById<Button>(R.id.btnAddPhoto)
 
         val app = requireActivity().application as FoodLogApplication
 
         viewModel = ViewModelProvider(
             this,
-            AddEntryViewModelFactory(entryId, app.restaurantRepository, app.foodEntryRepository, app.orderedItemDao)
+            AddEntryViewModelFactory(entryId, app.restaurantRepository, app.foodEntryRepository, app.orderedItemDao, app.photoDao)
         )[AddEntryViewModel::class.java]
 
         // --- Helper function to add a new Dish row dynamically ---
@@ -77,10 +94,21 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
             addDishRow()
         }
 
+        // When user taps "Add Photo", launch the visual media picker (images only)
+        btnAddPhoto.setOnClickListener {
+            pickMedia.launch(
+                androidx.activity.result.PickVisualMediaRequest(
+                    ActivityResultContracts.PickVisualMedia.ImageOnly
+                )
+            )
+        }
+
         // --- Adjust UI for Add vs Edit mode ---
         if (viewModel.isEditMode) {
-            tvTitle.text = "Edit Entry"
+            (requireActivity() as androidx.appcompat.app.AppCompatActivity).supportActionBar?.title = "Edit Entry"
             btnDelete.visibility = View.VISIBLE  // show Delete button only in edit mode
+        } else {
+            (requireActivity() as androidx.appcompat.app.AppCompatActivity).supportActionBar?.title = "Add Entry"
         }
 
         // --- Restaurant Autocomplete ---
@@ -97,6 +125,31 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
                 restaurantNames.clear()
                 restaurantNames.addAll(restaurants.map { it.name })
                 restaurantAdapter.notifyDataSetChanged()
+            }
+        }
+
+        // --- Photos Observation ---
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.selectedPhotoUris.collect { uris ->
+                llPhotosContainer.removeAllViews()
+                
+                uris.forEach { uriString ->
+                    val imageView = ImageView(requireContext()).apply {
+                        layoutParams = LinearLayout.LayoutParams(
+                            300, 
+                            LinearLayout.LayoutParams.MATCH_PARENT
+                        ).apply {
+                            setMargins(0, 0, 16, 0)
+                        }
+                        scaleType = ImageView.ScaleType.CENTER_CROP
+                    }
+                    
+                    Glide.with(this@AddEntryFragment)
+                        .load(Uri.parse(uriString))
+                        .into(imageView)
+                        
+                    llPhotosContainer.addView(imageView)
+                }
             }
         }
 
