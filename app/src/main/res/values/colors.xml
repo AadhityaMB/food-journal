@@ -1,15 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
+    <!-- Required by launcher icon XML files -->
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    
-    <!-- Warm "Foodie" Color Palette -->
-    <color name="foodie_orange">#FF5722</color>          <!-- Deep Orange -->
-    <color name="foodie_orange_dark">#E64A19</color>     <!-- Darker Orange -->
-    <color name="foodie_orange_light">#FFCCBC</color>    <!-- Light Orange -->
-    <color name="foodie_yellow">#FFC107</color>          <!-- Amber/Yellow for accents -->
-    
-    <!-- Neutral colors for backgrounds/surfaces -->
-    <color name="foodie_surface_light">#FFF3E0</color>   <!-- Very light orange-tinted white -->
-    <color name="foodie_surface_dark">#1F1A18</color>    <!-- Very dark warm grey -->
+
+    <!-- Primary – Deep Saffron Orange (food-inspired, vibrant) -->
+    <color name="md_primary">#C0392B</color>              <!-- Deep warm red-orange -->
+    <color name="md_on_primary">#FFFFFF</color>
+    <color name="md_primary_container">#FFDAD5</color>    <!-- Soft blush -->
+    <color name="md_on_primary_container">#410002</color>
+
+    <!-- Secondary – Warm Amber -->
+    <color name="md_secondary">#915C00</color>
+    <color name="md_on_secondary">#FFFFFF</color>
+    <color name="md_secondary_container">#FFE0B2</color>  <!-- Light amber -->
+    <color name="md_on_secondary_container">#2E1A00</color>
+
+    <!-- Tertiary – Earthy Teal (complements food tones) -->
+    <color name="md_tertiary">#386663</color>
+    <color name="md_on_tertiary">#FFFFFF</color>
+    <color name="md_tertiary_container">#BCECE8</color>
+    <color name="md_on_tertiary_container">#00201E</color>
+
+    <!-- Error -->
+    <color name="md_error">#BA1A1A</color>
+    <color name="md_on_error">#FFFFFF</color>
+    <color name="md_error_container">#FFDAD6</color>
+    <color name="md_on_error_container">#410002</color>
+
+    <!-- Light Mode Surfaces -->
+    <color name="md_background_light">#FFF8F6</color>     <!-- Warm off-white -->
+    <color name="md_on_background_light">#201A19</color>
+    <color name="md_surface_light">#FFF8F6</color>
+    <color name="md_on_surface_light">#201A19</color>
+    <color name="md_surface_variant_light">#F5DDD9</color>
+    <color name="md_on_surface_variant_light">#534341</color>
+    <color name="md_outline_light">#857370</color>
+    <color name="md_outline_variant_light">#D8C2BF</color>
+
+    <!-- Dark Mode Surfaces -->
+    <color name="md_background_dark">#18110F</color>      <!-- Very dark warm tone -->
+    <color name="md_on_background_dark">#EDE0DD</color>
+    <color name="md_surface_dark">#18110F</color>
+    <color name="md_on_surface_dark">#EDE0DD</color>
+    <color name="md_surface_variant_dark">#534341</color>
+    <color name="md_on_surface_variant_dark">#D8C2BF</color>
+    <color name="md_outline_dark">#A08C8A</color>
+    <color name="md_outline_variant_dark">#534341</color>
+
+    <!-- Dark Mode Primary -->
+    <color name="md_primary_dark">#FFB4AB</color>         <!-- Soft coral, readable on dark -->
+    <color name="md_on_primary_dark">#690005</color>
+    <color name="md_primary_container_dark">#93000A</color>
+    <color name="md_on_primary_container_dark">#FFDAD5</color>
+
+    <!-- Dark Mode Secondary -->
+    <color name="md_secondary_dark">#FFB95D</color>       <!-- Warm amber glow -->
+    <color name="md_on_secondary_dark">#4C2E00</color>
+    <color name="md_secondary_container_dark">#6C4300</color>
+    <color name="md_on_secondary_container_dark">#FFE0B2</color>
+
+    <!-- Dark Mode Tertiary -->
+    <color name="md_tertiary_dark">#A0D0CC</color>
+    <color name="md_on_tertiary_dark">#003735</color>
+    <color name="md_tertiary_container_dark">#1E4E4B</color>
+    <color name="md_on_tertiary_container_dark">#BCECE8</color>
+
+    <!-- Surface elevations (for cards / sheets) -->
+    <color name="md_surface_container_lowest_light">#FFFFFF</color>
+    <color name="md_surface_container_low_light">#FEF1EE</color>
+    <color name="md_surface_container_light">#F8E4E1</color>
+    <color name="md_surface_container_high_light">#F2D8D5</color>
+    <color name="md_surface_container_highest_light">#EDCDC9</color>
+
+    <color name="md_surface_container_lowest_dark">#120D0C</color>
+    <color name="md_surface_container_low_dark">#201A19</color>
+    <color name="md_surface_container_dark">#251E1D</color>
+    <color name="md_surface_container_high_dark">#2F2927</color>
+    <color name="md_surface_container_highest_dark">#3A3332</color>
+
 </resources>

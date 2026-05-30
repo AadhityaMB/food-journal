@@ -62,6 +62,7 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
 
         // Get view references
         val etRestaurant = view.findViewById<AutoCompleteTextView>(R.id.etRestaurant)
+        val etArea = view.findViewById<com.google.android.material.textfield.TextInputEditText>(R.id.etArea)
         val ratingBar = view.findViewById<RatingBar>(R.id.ratingBar)
         val etReview = view.findViewById<EditText>(R.id.etReview)
         val etAmount = view.findViewById<EditText>(R.id.etAmount)
@@ -125,6 +126,7 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
         }
 
         // --- Restaurant Autocomplete ---
+        // Suggestions show the full stored name (which may include area, e.g. "KFC, Anna Nagar")
         val restaurantNames = mutableListOf<String>()
         val restaurantAdapter = ArrayAdapter(
             requireContext(),
@@ -132,6 +134,16 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
             restaurantNames
         )
         etRestaurant.setAdapter(restaurantAdapter)
+
+        // When user picks a suggestion from the dropdown, split it into name + area
+        etRestaurant.setOnItemClickListener { _, _, position, _ ->
+            val selected = restaurantNames[position]
+            val commaIndex = selected.lastIndexOf(",")
+            if (commaIndex != -1) {
+                etRestaurant.setText(selected.substring(0, commaIndex).trim())
+                etArea.setText(selected.substring(commaIndex + 1).trim())
+            }
+        }
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.restaurantSuggestions.collect { restaurants ->
@@ -252,7 +264,16 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
                     hasPreFilled = true
 
                     // Fill in each form field with the existing data
-                    etRestaurant.setText(entry.restaurant?.name ?: "")
+                    // Split stored "Name, Area" back into two fields for editing
+                    val fullName = entry.restaurant?.name ?: ""
+                    val commaIdx = fullName.lastIndexOf(",")
+                    if (commaIdx != -1) {
+                        etRestaurant.setText(fullName.substring(0, commaIdx).trim())
+                        etArea.setText(fullName.substring(commaIdx + 1).trim())
+                    } else {
+                        etRestaurant.setText(fullName)
+                        etArea.setText("")
+                    }
                     etReview.setText(entry.foodEntry.review ?: "")
                     etAmount.setText(entry.foodEntry.amountSpent?.let { "%.0f".format(it) } ?: "")
                     ratingBar.rating = entry.foodEntry.rating?.toFloat() ?: 0f
@@ -303,12 +324,16 @@ class AddEntryFragment : Fragment(R.layout.fragment_add_entry) {
 
         // --- Save Button ---
         btnSave.setOnClickListener {
-            val restaurantName = etRestaurant.text.toString().trim()
+            val nameOnly = etRestaurant.text.toString().trim()
+            val area = etArea.text.toString().trim()
 
-            if (restaurantName.isBlank()) {
+            if (nameOnly.isBlank()) {
                 etRestaurant.error = "Please enter a restaurant name"
                 return@setOnClickListener
             }
+
+            // Combine into "Name, Area" if area is provided, else just use name
+            val restaurantName = if (area.isNotBlank()) "$nameOnly, $area" else nameOnly
 
             val review = etReview.text.toString()
             val amount = etAmount.text.toString().toDoubleOrNull()

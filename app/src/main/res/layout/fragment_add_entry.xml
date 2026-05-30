@@ -20,22 +20,68 @@
 
         <!-- Title was removed because it is now displayed in the Top App Bar -->
 
-        <!-- Restaurant Name with Autocomplete -->
-        <!-- AutoCompleteTextView shows a dropdown of existing restaurants as you type -->
+        <!-- Section label -->
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Restaurant Name"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:textColor="?attr/colorOnBackground"
+            android:layout_marginBottom="2dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Include the area so you can search by location later"
+            android:textSize="12sp"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginBottom="10dp"/>
+
+        <!-- Restaurant Name field — large, prominent -->
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/tilRestaurant"
             style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Restaurant Name"
-            android:layout_marginBottom="12dp">
+            app:placeholderText="e.g. KFC, Saravana Bhavan"
+            app:startIconDrawable="@android:drawable/ic_menu_myplaces"
+            android:layout_marginBottom="10dp">
 
             <AutoCompleteTextView
                 android:id="@+id/etRestaurant"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:completionThreshold="1"
-                android:inputType="textCapWords"/>
+                android:inputType="textCapWords"
+                android:textSize="16sp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:minHeight="60dp"/>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Area / Location field -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tilArea"
+            style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Area / Location"
+            app:placeholderText="e.g. Anna Nagar, T. Nagar"
+            app:startIconDrawable="@android:drawable/ic_dialog_map"
+            android:layout_marginBottom="16dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/etArea"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textCapWords"
+                android:textSize="16sp"
+                android:paddingTop="14dp"
+                android:paddingBottom="14dp"
+                android:minHeight="60dp"/>
 
         </com.google.android.material.textfield.TextInputLayout>
 

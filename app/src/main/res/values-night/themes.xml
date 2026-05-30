@@ -1,10 +1,60 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
+    <!-- ============================================================ -->
+    <!--  DARK THEME — Rich, moody, food-inspired, Material 3         -->
+    <!-- ============================================================ -->
     <style name="Base.Theme.Foodlog" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <item name="colorPrimary">@color/foodie_orange_light</item>
-        <item name="colorPrimaryVariant">@color/foodie_orange</item>
-        <item name="colorSecondary">@color/foodie_yellow</item>
-        <item name="android:windowBackground">@color/foodie_surface_dark</item>
+
+        <!-- Primary brand color — soft coral on dark -->
+        <item name="colorPrimary">@color/md_primary_dark</item>
+        <item name="colorOnPrimary">@color/md_on_primary_dark</item>
+        <item name="colorPrimaryContainer">@color/md_primary_container_dark</item>
+        <item name="colorOnPrimaryContainer">@color/md_on_primary_container_dark</item>
+
+        <!-- Secondary — warm amber glow -->
+        <item name="colorSecondary">@color/md_secondary_dark</item>
+        <item name="colorOnSecondary">@color/md_on_secondary_dark</item>
+        <item name="colorSecondaryContainer">@color/md_secondary_container_dark</item>
+        <item name="colorOnSecondaryContainer">@color/md_on_secondary_container_dark</item>
+
+        <!-- Tertiary — muted teal -->
+        <item name="colorTertiary">@color/md_tertiary_dark</item>
+        <item name="colorOnTertiary">@color/md_on_tertiary_dark</item>
+        <item name="colorTertiaryContainer">@color/md_tertiary_container_dark</item>
+        <item name="colorOnTertiaryContainer">@color/md_on_tertiary_container_dark</item>
+
+        <!-- Error -->
+        <item name="colorError">@color/md_error</item>
+        <item name="colorOnError">@color/md_on_error</item>
+        <item name="colorErrorContainer">@color/md_error_container</item>
+        <item name="colorOnErrorContainer">@color/md_on_error_container</item>
+
+        <!-- Backgrounds & Surfaces -->
+        <item name="android:colorBackground">@color/md_background_dark</item>
+        <item name="colorOnBackground">@color/md_on_background_dark</item>
+        <item name="colorSurface">@color/md_surface_dark</item>
+        <item name="colorOnSurface">@color/md_on_surface_dark</item>
+        <item name="colorSurfaceVariant">@color/md_surface_variant_dark</item>
+        <item name="colorOnSurfaceVariant">@color/md_on_surface_variant_dark</item>
+
+        <!-- Outline -->
+        <item name="colorOutline">@color/md_outline_dark</item>
+        <item name="colorOutlineVariant">@color/md_outline_variant_dark</item>
+
+        <!-- Surface containers (for cards, sheets, etc.) -->
+        <item name="colorSurfaceContainerLowest">@color/md_surface_container_lowest_dark</item>
+        <item name="colorSurfaceContainerLow">@color/md_surface_container_low_dark</item>
+        <item name="colorSurfaceContainer">@color/md_surface_container_dark</item>
+        <item name="colorSurfaceContainerHigh">@color/md_surface_container_high_dark</item>
+        <item name="colorSurfaceContainerHighest">@color/md_surface_container_highest_dark</item>
+
+        <!-- Window background -->
+        <item name="android:windowBackground">@color/md_background_dark</item>
+
+        <!-- Status bar — dark icons on dark bg would be invisible, so use light icons -->
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:windowLightStatusBar" tools:ignore="NewApi">false</item>
+
     </style>
+
 </resources>

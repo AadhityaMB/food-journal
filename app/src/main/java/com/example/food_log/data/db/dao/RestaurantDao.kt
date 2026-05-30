@@ -26,6 +26,11 @@ interface RestaurantDao {
     @Query("SELECT * FROM restaurants WHERE LOWER(name) = LOWER(:name) LIMIT 1")
     suspend fun findByName(name: String): Restaurant?
 
+    // Search by partial name match — powers the autocomplete dropdown.
+    // Matches anywhere in the stored name (e.g. typing "Anna" matches "KFC, Anna Nagar").
+    @Query("SELECT * FROM restaurants WHERE LOWER(name) LIKE '%' || LOWER(:query) || '%' ORDER BY name ASC")
+    fun searchByQuery(query: String): Flow<List<Restaurant>>
+
     @Query("SELECT * FROM restaurants WHERE id = :id")
     suspend fun getById(id: Long): Restaurant?
 

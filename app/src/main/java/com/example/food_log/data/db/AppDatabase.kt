@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
+import com.example.food_log.data.db.converters.Converters
 import com.example.food_log.data.db.dao.FoodEntryDao
 import com.example.food_log.data.db.dao.OrderedItemDao
 import com.example.food_log.data.db.dao.PhotoDao
@@ -16,6 +18,7 @@ import com.example.food_log.data.model.Restaurant
 // version = 2 because we added new columns to FoodEntry.
 // Room requires the version number to change whenever the schema changes.
 // exportSchema = false suppresses the "export schema" warning for now.
+@TypeConverters(Converters::class)
 @Database(
     entities = [
         Restaurant::class,
